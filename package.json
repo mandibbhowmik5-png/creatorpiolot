@@ -1,0 +1,28 @@
+{
+  "name": "creatorpilot",
+  "version": "1.0.0",
+  "description": "Autonomous Creator Agents for Content Strategy & Distribution",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "demo"
+  ],
+  "scripts": {
+    "dev": "npm --prefix apps/web run dev",
+    "build": "npm --prefix apps/web run build",
+    "start": "npm --prefix apps/web start",
+    "test:api": "python -m unittest apps/api/tests/test_pipeline.py",
+    "record:demo": "node demo/record_demo.js"
+  },
+  "keywords": [
+    "creator",
+    "autonomous-agents",
+    "openshorts",
+    "saliency-heatmaps",
+    "tension-beats",
+    "whisper"
+  ],
+  "author": "CreatorPilot",
+  "license": "MIT"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "creatorpilot-demo-recorder",
+  "version": "1.0.0",
+  "description": "30-Second Demo Video Recorder using Playwright",
+  "main": "record_demo.js",
+  "scripts": {
+    "record": "node record_demo.js"
+  },
+  "dependencies": {
+    "playwright": "^1.45.3"
+  }
+}

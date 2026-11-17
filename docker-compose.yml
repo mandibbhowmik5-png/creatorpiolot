@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # Backend Agent Engine (FastAPI + OpenCV + faster-whisper + SQLite)
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: creatorpilot-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - DEMO_MODE=true
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_MODEL=llama3
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY:-}
+    volumes:
+      - ./apps/api/app/data:/app/app/data
+    restart: unless-stopped
+
+  # Award-Winning Frontend UI (Next.js 14 + Tailwind + Framer Motion)
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: creatorpilot-web
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_DEMO_MODE=true
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # Optional 100% Offline Local LLM (Ollama)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: creatorpilot-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    profiles:
+      - offline-llm
+
+volumes:
+  ollama_data:
